@@ -1,6 +1,7 @@
 # Script to find if wan link have private ip and act accordingly,
 # Tested with Mikrotik ROS 5.x & 6.x versions
 # 19-APR-2016 / Syed Jahanzaib
+# EDIT for me
  
 # Set your WAN Interface name , i have added pppoe-out1 , change it as required
 :local WANINTERFACE
