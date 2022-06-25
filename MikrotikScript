@@ -1,0 +1,57 @@
+# Script to find if wan link have private ip and act accordingly,
+# Tested with Mikrotik ROS 5.x & 6.x versions
+# 19-APR-2016 / Syed Jahanzaib
+ 
+# Set your WAN Interface name , i have added pppoe-out1 , change it as required
+:local WANINTERFACE
+:set WANINTERFACE Internet-1G
+ 
+# Find Public IP from pppoe-out1 interface & cut subnet
+:local WANIP [/ip address get [find where interface=$WANINTERFACE] address];
+:set WANIP [:pick $WANIP 0 ([:len $WANIP]-3) ];
+
+# Match if IP address starts with private address 10.*
+:if ($WANIP ~"^[0-9 ]*10") do={
+:log warning "Private ip $WANIP !!!"
+# Set your action here , like Re-Connect the pppoe-link
+ /interface  disable $WANINTERFACE
+ :delay 5
+ /interface  enable $WANINTERFACE
+} else={
+
+# Match if IP address starts with private address 100.*
+:if ($WANIP ~"^[0-9 ]*100") do={
+:log warning "Private ip $WANIP !!!"
+# Set your action here , like Re-Connect the pppoe-link
+ /interface  disable $WANINTERFACE
+ :delay 5
+ /interface  enable $WANINTERFACE
+} else={
+
+# Match if IP address starts with private address 172.*
+:if ($WANIP ~"^[0-9 ]*172") do={
+:log warning "Private ip $WANIP !!!"
+# Set your action here , like Re-Connect the pppoe-link
+ /interface  disable $WANINTERFACE
+ :delay 5
+ /interface  enable $WANINTERFACE
+} else={
+
+# Match if IP address starts with private address 192.*
+:if ($WANIP ~"^[0-9 ]*192") do={
+:log warning "Private ip $WANIP !!!"
+# Set your action here , like Re-Connect the pppoe-link
+ /interface  disable $WANINTERFACE
+ :delay 5
+ /interface  enable $WANINTERFACE
+} else={
+
+  
+# If above statement do not match, then consider it a public ip and take no action, just log : ~ )
+:log warning "Public IP - $WANIP - Found, OK ! No action required"
+# OR Set your desire action here if required
+}
+}
+}
+}
+# Script Ends Here
